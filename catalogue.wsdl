@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions 
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	targetNamespace="http://catalogueservice/"
+	xmlns:tns="http://catalogueservice/"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	name="CatalogueService">
+	
+	<types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+			targetNamespace="http://catalogueservice/">
+			<xs:element name="getCatalogue" type="tns:getCatalogue"/>
+			<xs:element name="getCatalogueResponse" type="tns:getCatalogueResponse"/>
+			<xs:complexType name="getCatalogue">
+				<xs:sequence>
+					<xs:element name="cours" type="tns:cours" minOccurs="0" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="cours">
+				<xs:sequence>
+					<xs:element name="titre" type="xs:string" minOccurs="0" />
+					<xs:element name="professeur" type="xs:string" minOccurs="0" />
+					<xs:element name="prix" type="xs:double" minOccurs="0" />
+					<xs:element name="nombrePages" type="xs:int" minOccurs="0" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="getCatalogueResponse">
+				<xs:sequence>
+					<xs:element name="return" type="tns:cours" minOccurs="0"/>
+				</xs:sequence>
+			</xs:complexType>
+		</xs:schema>
+	</types>
+	
+	<message name="getCatalogue">
+		<part name="parameters" element="tns:getCatalogue"/>
+	</message>
+	<message name="getCatalogueResponse">
+		<part name="parameters" element="tns:getCatalogueResponse"/>
+	</message>
+	
+	<portType name="CatalogueService">
+		<operation name="getCatalogue">
+			<input message="tns:getCatalogue"/>
+			<output message="tns:getCatalogueResponse"/>
+		</operation>
+	</portType>
+	
+	<binding name="CatalogueServicePortBinding" type="tns:CatalogueService">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+		<operation name="getCatalogue">
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+	
+	<service name="getCatalogue">
+		<port name="CatalogueServicePort" binding="tns:CatalogueServicePortBinding">
+			<soap:address location="http://localhost:8080/Catalogue/getCatalogue" />
+		</port>
+	</service>
+</definitions>
